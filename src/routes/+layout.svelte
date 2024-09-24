@@ -5,11 +5,7 @@
 	let { children, data } = $props();
 </script>
 
-
 <div class="h-screen main-div">
-	<Nav
-		userIsLogged={data.userIsLogged}
-		userPicture={data.user?.picture}
-	/>
+	<Nav userIsLogged={data.userIsLogged} userPicture={data.user?.picture} />
 	{@render children()}
 </div>

@@ -20,5 +20,5 @@ export const Routes: Routes = {
 	profile: {
 		name: 'Perfil',
 		url: '/profile'
-	},
+	}
 };

@@ -2719,6 +2719,11 @@ svelte-eslint-parser@^0.41.1:
     postcss "^8.4.39"
     postcss-scss "^4.0.9"
 
+svelte-icons-pack@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/svelte-icons-pack/-/svelte-icons-pack-3.1.3.tgz#1f829069407241e29a8b7db413d50c4862dbd082"
+  integrity sha512-sJ/ZiFkbim5zfU+T8V/kEendOluEYtJ7rp207Gc2c/NFgaj4CvWScUbuiByZrdf3Xm8n731Fug36IiXuLTkR9A==
+
 svelte@^5.0.0-next.1:
   version "5.0.0-next.257"
   resolved "https://registry.yarnpkg.com/svelte/-/svelte-5.0.0-next.257.tgz#829fce06a66aacc2cc174d2aaf0232d78588eb5a"
