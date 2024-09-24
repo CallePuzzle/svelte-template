@@ -1,6 +1,15 @@
 <script lang="ts">
 	import '../app.css';
-	let { children } = $props();
+	import Nav from '$lib/components/layout/Nav.svelte';
+
+	let { children, data } = $props();
 </script>
 
-{@render children()}
+
+<div class="h-screen main-div">
+	<Nav
+		userIsLogged={data.userIsLogged}
+		userPicture={data.user?.picture}
+	/>
+	{@render children()}
+</div>
