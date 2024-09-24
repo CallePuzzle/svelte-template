@@ -5,7 +5,6 @@ import { initializePrisma } from '$lib/server/db';
 import type { PageServerLoad, PageServerLoadEvent } from './$types';
 
 export const load: PageServerLoad = async (event: PageServerLoadEvent) => {
-
 	let user = null;
 
 	if (event.locals.user) {
@@ -14,12 +13,10 @@ export const load: PageServerLoad = async (event: PageServerLoadEvent) => {
 		user = await UserGetDetail(prisma, event.locals.user.id);
 	}
 
-	let path = event.route.id;
-
 	return {
 		appUrl: APP_URL,
-		path: path,
+		path: event.route.id,
 		userIsLogged: event.locals.user ? true : false,
-		user: user,
+		user: user
 	};
 };
