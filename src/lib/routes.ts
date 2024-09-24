@@ -20,5 +20,13 @@ export const Routes: Routes = {
 	profile: {
 		name: 'Perfil',
 		url: '/profile'
-	}
+	},
+	notification_my: {
+		name: 'Mis notificaciones',
+		url: '/notification/my'
+	},
+	notification_subscribe: {
+		name: 'Subscribe',
+		url: '/notification/subscribe'
+	},
 };

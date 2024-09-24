@@ -1253,6 +1253,11 @@ capnp-ts@^0.7.0:
     debug "^4.3.1"
     tslib "^2.2.0"
 
+cf-webpush@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/cf-webpush/-/cf-webpush-1.1.4.tgz#c07d4d9f7fc8ee14a7c86c3d7e01869f8856c914"
+  integrity sha512-rhzwJIIONRjHyY93dlnEqHuQlgdH7x4SXQuaU3bf6vZQXHJgCSfZ36FsqE2xBHjClJxQKBrdr4WVHJ5xpDlceg==
+
 chai@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/chai/-/chai-5.1.1.tgz#f035d9792a22b481ead1c65908d14bb62ec1c82c"
