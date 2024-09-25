@@ -12,4 +12,4 @@ compatibility_flags = ["nodejs_compat"]
 [[d1_databases]]
 binding = "DB"
 database_name = "svelte-test"
-database_id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+database_id = "4b1a18d0-ffd4-40a4-87ff-48ebe64e39bb"
