@@ -2,6 +2,7 @@ import { AUTH0_DOMAIN } from '$env/static/private';
 import { auth0, initializeLucia } from '$lib/server/auth';
 import { initializePrisma } from '$lib/server/db';
 import { OAuth2RequestError } from 'arctic';
+import { logger } from '$lib/server/logger';
 
 import type { RequestEvent } from '@sveltejs/kit';
 import { Routes } from '$lib/routes';
@@ -28,13 +29,12 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			}
 		});
 		const user = await response.json();
-		//logger.info(user, 'user info from auth0');
+		logger.info(user, 'user info from auth0');
 		const existingUser = await prisma.user.findUnique({
 			where: {
 				id: user.sub
 			}
 		});
-		//logger.debug(existingUser, 'existing user');
 		if (existingUser) {
 			const session = await lucia.createSession(existingUser.id, {});
 			const sessionCookie = lucia.createSessionCookie(session.id);
@@ -50,15 +50,16 @@ export async function GET(event: RequestEvent): Promise<Response> {
 					picture: user.picture
 				}
 			});
-			//logger.debug('user updated');
+			logger.debug(existingUser, 'user updated');
 		} else {
-			await prisma.user.create({
+			const createdUser = await prisma.user.create({
 				data: {
 					id: user.sub,
 					picture: user.picture,
 					name: user.name
 				}
 			});
+			logger.debug(createdUser, 'user created');
 			const session = await lucia.createSession(user.sub, {});
 			const sessionCookie = lucia.createSessionCookie(session.id);
 			event.cookies.set(sessionCookie.name, sessionCookie.value, {
@@ -69,9 +70,9 @@ export async function GET(event: RequestEvent): Promise<Response> {
 
 		return new Response(null, {
 			status: 302,
-			headers: {
-				Location: Routes.wellcome.url
-			}
+			headers: new Headers({
+				Location: Routes.profile.url as string
+			})
 		});
 	} catch (e) {
 		//logger.error(e, 'error in login callback');
