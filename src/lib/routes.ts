@@ -8,7 +8,7 @@ interface Routes {
 	[id: string]: Route;
 }
 
-export const Routes: Routes = {
+const Routes: Routes = {
 	home: {
 		name: 'Inicio',
 		url: '/'
@@ -30,3 +30,21 @@ export const Routes: Routes = {
 		url: '/notification/subscribe'
 	},
 };
+
+interface ProtectedRoute {
+	path: string;
+	message: string;
+}
+
+const ProtectedRoutes: ProtectedRoute[] = [
+	{
+		path: '/profile',
+		message: 'Para ver tu perfil necesitas iniciar sesión'
+	},
+	{
+		path: '/notification/my',
+		message: 'Para ver tus notificaciones necesitas iniciar sesión'
+	}
+];
+
+export { Routes, ProtectedRoutes };
