@@ -9,23 +9,23 @@
 	let { children, data } = $props();
 
 	onMount(async () => {
-		const status = await Notification.requestPermission();
+		await Notification.requestPermission();
 		if ('serviceWorker' in navigator && data.userIsLogged) {
 			const reg = await navigator.serviceWorker.ready;
 			await SubscribeUser(data.userIsLogged, data.user?.id as string, reg, data.JWKpublicKey);
 		}
 
-		//if (data.notifications && data.path !== Routes.notification_my.url) {
-		//	if (data.notificationsCount == 1) {
-		//		toast('Tienes una notificación sin leer', {
-		//			icon: '🔔'
-		//		});
-		//	} else if (data.notificationsCount > 1) {
-		//		toast(`Tienes ${data.notificationsCount} notificaciones sin leer`, {
-		//			icon: '🔔'
-		//		});
-		//	}
-		//}
+		if (data.notifications && data.path !== Routes.notification_my.url) {
+			if (data.notificationsCount == 1) {
+				toast('Tienes una notificación sin leer', {
+					icon: '🔔'
+				});
+			} else if (data.notificationsCount > 1) {
+				toast(`Tienes ${data.notificationsCount} notificaciones sin leer`, {
+					icon: '🔔'
+				});
+			}
+		}
 	});
 </script>
 
@@ -33,5 +33,15 @@
 
 <div class="h-screen main-div">
 	<Nav userIsLogged={data.userIsLogged} userPicture={data.user?.picture || ""}  notificationsCount={data.notificationsCount}/>
-	{@render children()}
+
+	{#if data.isProtectedRoute && !data.userIsLogged}
+		<div class="alert alert-error">
+			<p>{data.protectedRouteMessage}</p>
+			<p>
+				<a href={Routes.login.url} class="btn btn-accent">{Routes.login.name}</a>
+			</p>
+		</div>
+	{:else}
+		{@render children()}
+	{/if}
 </div>
