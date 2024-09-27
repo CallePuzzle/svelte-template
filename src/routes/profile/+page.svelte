@@ -1,5 +1,9 @@
 <script lang="ts">
+	import { Routes } from '$lib/routes';
+	import { superForm } from 'sveltekit-superforms';
 
+	let { data } = $props();
+	const { form, errors, constraints, message, enhance } = superForm(data.form);
 </script>
 
 <div class="flex flex-col">
@@ -17,40 +21,29 @@
 		</div>
 	</div>
 	<div class="container mx-auto px-4">
-		<form class="mt-8" method="POST" action="?/save">
-			<div class="mb-4">
-				<label for="name" class="my-2">Nombre:</label>
-				<input
-					type="text"
-					name="name"
-					value={data.user?.name}
-					class="input w-full max-w-xs border-solid border-slate-600"
-					required
-				/>
-			</div>
-			<div class="mb-4">
-				<label for="gangId" class="my-2">Mi peña:</label>
-				{#if data.user?.gangId === null}
-					<a href={Routes.home.url} class="input w-full max-w-xs border-solid border-slate-600">
-						Busca tu peña
-					</a>
-					o
-					<a href={Routes.add_gang.url} class="input w-full max-w-xs border-solid border-slate-600">
-						crea una nueva
-					</a>
-				{:else}
-					<a
-						href="/gang/{data.user?.gangId}"
-						class="input w-full max-w-xs border-solid border-slate-600"
-					>
-						{data.user?.gang.name}
-					</a>
-				{/if}
-			</div>
+		{#if $message}<h3>{$message}</h3>{/if}
+		<form method="POST" use:enhance>
+			<label for="name">Name</label>
+			<input
+				type="text"
+				name="name"
+				aria-invalid={$errors.name ? 'true' : undefined}
+				bind:value={$form.name}
+				{...$constraints.name}
+			/>
+			{#if $errors.name}<span class="invalid">{$errors.name}</span>{/if}
 
-			<div class="flex items-center justify-between">
-				<button type="submit" class="btn btn-accent">Guardar</button>
-			</div>
+			<label for="picture">E-mail</label>
+			<input
+				type="text"
+				name="picture"
+				aria-invalid={$errors.picture ? 'true' : undefined}
+				bind:value={$form.picture}
+				{...$constraints.picture}
+			/>
+			{#if $errors.picture}<span class="invalid">{$errors.picture}</span>{/if}
+
+			<div><button>Submit</button></div>
 		</form>
 	</div>
 </div>
