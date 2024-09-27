@@ -4,20 +4,8 @@ import { initializePrisma } from '$lib/server/db';
 import { GetDetail as UserGetDetail } from '$lib/user/get-detail';
 import { superValidate, message } from 'sveltekit-superforms';
 import { vine } from 'sveltekit-superforms/adapters';
-import Vine from '@vinejs/vine';
+import {schema, defaults} from './schema';
 
-const schema = Vine.object({
-	name: Vine.string(),
-	picture: Vine.string().url({
-		require_protocol: true,
-		protocols: ['https']
-	})
-});
-
-const defaults = {
-	name: '',
-	picture: ''
-};
 
 import type { PageServerLoad, PageServerLoadEvent, Actions } from './$types';
 
