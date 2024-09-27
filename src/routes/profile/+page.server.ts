@@ -16,7 +16,8 @@ export const actions: Actions = {
 		logger.info(form, 'default form');
 
 		if (!form.valid) {
-			return form;
+			logger.debug('form invalid');
+			return { form };
 		}
 
 		const db = event.platform!.env.DB;
@@ -32,7 +33,7 @@ export const actions: Actions = {
 			return message(form, 'Form posted successfully!');
 		} catch (error) {
 			logger.error(error);
-			return { success: false, error: error };
+			return message(form, 'Error updating profile');
 		}
 	}
 };
