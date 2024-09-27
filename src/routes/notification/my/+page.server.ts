@@ -1,7 +1,3 @@
-
 import type { Actions, RequestEvent } from './$types';
 
-export const actions: Actions = {
-
-};
-
+export const actions: Actions = {};

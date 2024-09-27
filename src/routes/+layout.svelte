@@ -32,7 +32,11 @@
 <Toaster />
 
 <div class="h-screen main-div">
-	<Nav userIsLogged={data.userIsLogged} userPicture={data.user?.picture || ""}  notificationsCount={data.notificationsCount}/>
+	<Nav
+		userIsLogged={data.userIsLogged}
+		userPicture={data.user?.picture || ''}
+		notificationsCount={data.notificationsCount}
+	/>
 
 	{#if data.isProtectedRoute && !data.userIsLogged}
 		<div class="alert alert-error">

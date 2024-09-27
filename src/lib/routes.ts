@@ -28,7 +28,7 @@ const Routes: Routes = {
 	notification_subscribe: {
 		name: 'Subscribe',
 		url: '/notification/subscribe'
-	},
+	}
 };
 
 interface ProtectedRoute {
