@@ -1,9 +1,17 @@
 <script lang="ts">
 	import { Routes } from '$lib/routes';
+	import { Control, Field, FieldErrors, Label } from "formsnap";
 	import { superForm } from 'sveltekit-superforms';
+	import { vine } from 'sveltekit-superforms/adapters';
+	import {schema, defaults} from './schema';
 
 	let { data } = $props();
-	const { form, errors, constraints, message, enhance } = superForm(data.form);
+	let form = superForm(data.form, {
+		validators: vine(schema, { defaults })
+	});
+
+	let { form: formData, enhance } = form;
+	console.log(formData);
 </script>
 
 <div class="flex flex-col">
@@ -21,27 +29,35 @@
 		</div>
 	</div>
 	<div class="container mx-auto px-4">
-		{#if $message}<h3>{$message}</h3>{/if}
 		<form method="POST" use:enhance>
-			<label for="name">Name</label>
-			<input
-				type="text"
-				name="name"
-				aria-invalid={$errors.name ? 'true' : undefined}
-				bind:value={$form.name}
-				{...$constraints.name}
-			/>
-			{#if $errors.name}<span class="invalid">{$errors.name}</span>{/if}
 
-			<label for="picture">E-mail</label>
-			<input
-				type="text"
-				name="picture"
-				aria-invalid={$errors.picture ? 'true' : undefined}
-				bind:value={$form.picture}
-				{...$constraints.picture}
-			/>
-			{#if $errors.picture}<span class="invalid">{$errors.picture}</span>{/if}
+			<Field {form} name="name">
+				<Control let:attrs>
+				  <Label>Nombre</Label>
+				  <input
+					{...attrs}
+					bind:value={$formData.name}
+					minlength="2"
+					maxlength="53"
+					required
+				  />
+				</Control>
+				<FieldErrors />
+			  </Field>
+
+			  <Field {form} name="picture">
+				<Control let:attrs>
+				  <Label>Avatar</Label>
+				  <input
+					{...attrs}
+					bind:value={$formData.picture}
+					minlength="2"
+					maxlength="53"
+					required
+				  />
+				</Control>
+				<FieldErrors />
+			  </Field>
 
 			<div><button>Submit</button></div>
 		</form>

@@ -47,6 +47,7 @@ export const load: PageServerLoad = async (event: PageServerLoadEvent) => {
 		const user = await UserGetDetail(prisma, event.locals.user.id);
 		if (!user) error(404, 'Not found');
 		form = await superValidate(user, vine(schema, { defaults }));
+		logger.debug(form, 'form');
 	}
 
 	return { form };
