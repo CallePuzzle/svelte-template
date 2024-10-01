@@ -2,11 +2,11 @@
 	import { Routes } from '$lib/routes';
 	import { schema } from './schema';
 	import Form from '$lib/components/Form.svelte';
+	import { t } from '$lib/translations';
 
 	let { data } = $props();
 
 	const superform = data.form;
-
 </script>
 
 <div class="flex flex-col">
