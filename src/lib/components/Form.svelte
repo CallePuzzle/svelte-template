@@ -1,33 +1,33 @@
 <script lang="ts">
+	import { t } from '$lib/translations';
 	import { Control, Field, FieldErrors, Label } from 'formsnap';
 	import { superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
+	import type { ZodObject } from 'zod';
 
+	//let { ... } : {
+	//    schema: ZodObject;
+	//}  = $props();
 	let { superform, schema } = $props();
 	const form = superForm(superform, {
 		validators: zodClient(schema)
 	});
 
 	const { form: formData } = form;
+	const fields = schema.keyof().options;
+	const schemaObj = schema.shape;
 </script>
 
-		<form method="POST">
-			<Field {form} name="name">
-				<Control let:attrs>
-					<Label>Nombre</Label>
-					<input {...attrs} bind:value={$formData.name} required />
-				</Control>
-				<FieldErrors />
-			</Field>
+<form method="POST">
+	{#each fields as field}
+		<Field {form} name={field}>
+			<Control let:attrs>
+				<Label>{$t('user.' + field)}</Label>
+				<input {...attrs} bind:value={$formData[field]} required />
+			</Control>
+			<FieldErrors />
+		</Field>
+	{/each}
 
-			<Field {form} name="picture">
-				<Control let:attrs>
-					<Label>Avatar</Label>
-					<input {...attrs} bind:value={$formData.picture} required />
-				</Control>
-				<FieldErrors />
-			</Field>
-
-			<div><button>Submit</button></div>
-		</form>
-
+	<div><button>Submit</button></div>
+</form>
