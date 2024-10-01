@@ -1,16 +1,8 @@
-import Vine from '@vinejs/vine';
+import { z } from 'zod';
 
-const schema = Vine.object({
-	name: Vine.string(),
-	picture: Vine.string().url({
-		require_protocol: true,
-		protocols: ['https']
-	})
+const schema = z.object({
+	name: z.string().min(3),
+	picture: z.string().url()
 });
 
-const defaults = {
-	name: '',
-	picture: ''
-};
-
-export { schema, defaults };
+export { schema };
