@@ -1,17 +1,12 @@
 <script lang="ts">
 	import { Routes } from '$lib/routes';
-	import { Control, Field, FieldErrors, Label } from "formsnap";
-	import { superForm } from 'sveltekit-superforms';
-	import { vine } from 'sveltekit-superforms/adapters';
-	import {schema, defaults} from './schema';
+	import { schema } from './schema';
+	import Form from '$lib/components/Form.svelte';
 
 	let { data } = $props();
-	let form = superForm(data.form, {
-		validators: vine(schema, { defaults })
-	});
 
-	let { form: formData, enhance } = form;
-	console.log(formData);
+	const superform = data.form;
+
 </script>
 
 <div class="flex flex-col">
@@ -29,37 +24,6 @@
 		</div>
 	</div>
 	<div class="container mx-auto px-4">
-		<form method="POST" use:enhance>
-
-			<Field {form} name="name">
-				<Control let:attrs>
-				  <Label>Nombre</Label>
-				  <input
-					{...attrs}
-					bind:value={$formData.name}
-					minlength="2"
-					maxlength="53"
-					required
-				  />
-				</Control>
-				<FieldErrors />
-			  </Field>
-
-			  <Field {form} name="picture">
-				<Control let:attrs>
-				  <Label>Avatar</Label>
-				  <input
-					{...attrs}
-					bind:value={$formData.picture}
-					minlength="2"
-					maxlength="53"
-					required
-				  />
-				</Control>
-				<FieldErrors />
-			  </Field>
-
-			<div><button>Submit</button></div>
-		</form>
+		<Form {schema} {superform} />
 	</div>
 </div>

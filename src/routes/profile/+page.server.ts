@@ -3,15 +3,14 @@ import { logger } from '$lib/server/logger';
 import { initializePrisma } from '$lib/server/db';
 import { GetDetail as UserGetDetail } from '$lib/user/get-detail';
 import { superValidate, message } from 'sveltekit-superforms';
-import { vine } from 'sveltekit-superforms/adapters';
-import {schema, defaults} from './schema';
-
+import { zod } from 'sveltekit-superforms/adapters';
+import { schema } from './schema';
 
 import type { PageServerLoad, PageServerLoadEvent, Actions } from './$types';
 
 export const actions: Actions = {
 	default: async (event) => {
-		const form = await superValidate(event.request, vine(schema, { defaults }));
+		const form = await superValidate(event.request, zod(schema));
 
 		logger.info(form, 'default form');
 
@@ -46,7 +45,7 @@ export const load: PageServerLoad = async (event: PageServerLoadEvent) => {
 		const prisma = initializePrisma(db);
 		const user = await UserGetDetail(prisma, event.locals.user.id);
 		if (!user) error(404, 'Not found');
-		form = await superValidate(user, vine(schema, { defaults }));
+		form = await superValidate(user, zod(schema));
 		logger.debug(form, 'form');
 	}
 
