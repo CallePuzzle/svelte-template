@@ -1,4 +1,5 @@
 import { error } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import { logger } from '$lib/server/logger';
 import { initializePrisma } from '$lib/server/db';
 import { GetDetail as UserGetDetail } from '$lib/user/get-detail';
@@ -16,7 +17,7 @@ export const actions: Actions = {
 
 		if (!form.valid) {
 			logger.debug('form invalid');
-			return { form };
+			return fail(400, { form });
 		}
 
 		const db = event.platform!.env.DB;

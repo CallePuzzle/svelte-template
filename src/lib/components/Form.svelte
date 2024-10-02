@@ -6,10 +6,12 @@
 
 	let {
 		superform,
-		schema
+		schema,
+		type
 	}: {
 		superform: any;
 		schema: any;
+		type: string;
 	} = $props();
 	const form = superForm(superform, {
 		validators: zodClient(schema)
@@ -20,22 +22,27 @@
 	const schemaObj = schema.shape;
 </script>
 
-<form method="POST">
+<form method="POST" class="flex flex-col">
 	{#each fields as field}
 		<Field {form} name={field}>
 			<Control let:attrs>
-				<Label>{$t('user.' + field)}</Label>
-				<input
-					{...attrs}
-					bind:value={$formData[field]}
-					required={!schemaObj[field].isOptional()}
-					minlength={schemaObj[field].minLength}
-					maxlength={schemaObj[field].maxLength}
-				/>
+				<Label class="flex justify-center my-2">
+					<span class="w-full max-w-xs">{$t(type + '.' + field)}</span>
+					<input
+						class="input input-bordered w-full max-w-xs"
+						{...attrs}
+						bind:value={$formData[field]}
+						required={!schemaObj[field].isOptional()}
+						minlength={schemaObj[field].minLength}
+						maxlength={schemaObj[field].maxLength}
+					/>
+				</Label>
 			</Control>
 			<FieldErrors />
 		</Field>
 	{/each}
 
-	<div><button>Submit</button></div>
+	<div class="flex justify-center my-2">
+		<button class="btn btn-accent">{$t(type + '.submit')}</button>
+	</div>
 </form>
