@@ -14,7 +14,8 @@
 		<div class="hero-content text-center">
 			<div class="max-w-md">
 				<h1 class="text-5xl font-bold">
-					Hola {#if data.user.name}{data.user.name}{/if}
+					{$t('profile.hello')}
+					{#if data.user.name}{data.user.name}{/if}
 				</h1>
 				<p class="py-6">
 					Tienes {data.notificationsCount} notificaciones pendientes
