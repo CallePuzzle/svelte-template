@@ -3,12 +3,14 @@
 	import { Control, Field, FieldErrors, Label } from 'formsnap';
 	import { superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import type { ZodObject } from 'zod';
 
-	//let { ... } : {
-	//    schema: ZodObject;
-	//}  = $props();
-	let { superform, schema } = $props();
+	let {
+		superform,
+		schema
+	}: {
+		superform: any;
+		schema: any;
+	} = $props();
 	const form = superForm(superform, {
 		validators: zodClient(schema)
 	});
@@ -23,7 +25,13 @@
 		<Field {form} name={field}>
 			<Control let:attrs>
 				<Label>{$t('user.' + field)}</Label>
-				<input {...attrs} bind:value={$formData[field]} required />
+				<input
+					{...attrs}
+					bind:value={$formData[field]}
+					required={!schemaObj[field].isOptional()}
+					minlength={schemaObj[field].minLength}
+					maxlength={schemaObj[field].maxLength}
+				/>
 			</Control>
 			<FieldErrors />
 		</Field>
