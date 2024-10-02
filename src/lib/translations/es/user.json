@@ -1,4 +1,5 @@
 {
 	"name": "Nombre",
-	"picture": "Avatar"
+	"picture": "Avatar",
+	"submit": "Guardar"
 }

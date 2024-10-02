@@ -4,7 +4,13 @@
 	import Form from '$lib/components/Form.svelte';
 	import { t } from '$lib/translations';
 
-	let { data } = $props();
+	import type { PageData } from './$types';
+
+	let {
+		data
+	}: {
+		data: PageData;
+	} = $props();
 
 	const superform = data.form;
 </script>
@@ -25,6 +31,6 @@
 		</div>
 	</div>
 	<div class="container mx-auto px-4">
-		<Form schema={userSchema} {superform} />
+		<Form schema={userSchema} {superform} type="user" />
 	</div>
 </div>
