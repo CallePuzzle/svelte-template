@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Routes } from '$lib/routes';
-	import { schema } from './schema';
+	import { userSchema } from '$lib/schemas/user';
 	import Form from '$lib/components/Form.svelte';
 	import { t } from '$lib/translations';
 
@@ -25,6 +25,6 @@
 		</div>
 	</div>
 	<div class="container mx-auto px-4">
-		<Form {schema} {superform} />
+		<Form schema={userSchema} {superform} />
 	</div>
 </div>
