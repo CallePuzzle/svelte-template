@@ -26,7 +26,7 @@
 	{#each fields as field}
 		<Field {form} name={field}>
 			<Control let:attrs>
-				<Label class="flex justify-center my-2">
+				<Label class="flex justify-center flex-col sm:flex-row my-2">
 					<span class="w-full max-w-xs">{$t(type + '.' + field)}</span>
 					<input
 						class="input input-bordered w-full max-w-xs"
