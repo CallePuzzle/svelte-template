@@ -16,7 +16,7 @@ export const config = {
 			locale: 'es',
 			key: 'user',
 			loader: async () => (await import('./es/user.json')).default
-		},
+		}
 	]
 };
 
