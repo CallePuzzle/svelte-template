@@ -1,6 +1,4 @@
 import i18n from 'sveltekit-i18n';
-import { dev } from '$app/environment';
-import lang from './lang.json';
 
 //import type { Config } from 'sveltekit-i18n';
 
@@ -11,13 +9,13 @@ export const config = {
 	loaders: [
 		{
 			locale: 'es',
-			key: 'user',
-			loader: async () => (await import('./es/user.json')).default
+			key: 'index',
+			loader: async () => (await import('./es/index.json')).default
 		},
 		{
 			locale: 'es',
-			key: 'profile',
-			loader: async () => (await import('./es/profile.json')).default
+			key: 'user',
+			loader: async () => (await import('./es/user.json')).default
 		}
 	]
 };

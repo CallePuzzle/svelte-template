@@ -1,7 +1,9 @@
 <script lang="ts">
+	import { t } from '$lib/translations';
 	import { Routes } from '$lib/routes';
 	import { Icon } from 'svelte-icons-pack';
 	import { BiMenu } from 'svelte-icons-pack/bi';
+	import Logo from '$lib/assets/logo.webp';
 
 	const { userIsLogged = false, userPicture = '', notificationsCount = 0 } = $props();
 </script>
@@ -20,9 +22,16 @@
 				</details>
 			</li>
 		</ul>
-		<a href={Routes.home.url} data-sveltekit-reload> LOGO </a>
+		<a href={Routes.home.url} data-sveltekit-reload>
+			<img src={Logo} alt="Icono cabecera" class="max-w-14" />
+		</a>
 	</div>
 	<div class="flex gap-2">
+		<div class="name">
+			<a href={Routes.home.url} class="btn btn-ghost text-xl flex" data-sveltekit-reload>
+				<span>{$t('index.appName')}</span>
+			</a>
+		</div>
 		{#if userIsLogged}
 			<div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar indicator">
 				{#if notificationsCount}
