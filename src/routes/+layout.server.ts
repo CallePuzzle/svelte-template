@@ -10,19 +10,26 @@ import type { PageServerLoad, PageServerLoadEvent } from './$types';
 import type { UserNotifications } from '$lib/notification/get-user-notifications';
 
 export const load: PageServerLoad = async (event: PageServerLoadEvent) => {
-	let user = null;
-	let userNotification: UserNotifications = {
-		notifications: [],
-		notificationsCount: 0
-	};
+	const {
+		locals: { safeGetSession },
+		cookies
+	} = event;
 
-	if (event.locals.user) {
-		const db = event.platform!.env.DB;
-		const prisma = initializePrisma(db);
-		user = await UserGetDetail(prisma, event.locals.user.id);
-		logger.debug(user, 'current user');
-		userNotification = await GetUserNotifications(prisma, event.locals.user.id);
-	}
+	const { session, user } = await safeGetSession();
+
+	// let user = null;
+	// let userNotification: UserNotifications = {
+	// 	notifications: [],
+	// 	notificationsCount: 0
+	// };
+
+	// if (event.locals.user) {
+	// 	const db = event.platform!.env.DB;
+	// 	const prisma = initializePrisma(db);
+	// 	user = await UserGetDetail(prisma, event.locals.user.id);
+	// 	logger.debug(user, 'current user');
+	// 	userNotification = await GetUserNotifications(prisma, event.locals.user.id);
+	// }
 
 	const path = event.route.id;
 
@@ -32,9 +39,11 @@ export const load: PageServerLoad = async (event: PageServerLoadEvent) => {
 		appUrl: APP_URL,
 		path: path,
 		userIsLogged: event.locals.user ? true : false,
-		user: user,
 		JWKpublicKey: getPublicKeyFromJwk(JSON.parse(JWK)),
-		notifications: userNotification.notifications,
-		notificationsCount: userNotification.notificationsCount
+		// notifications: userNotification.notifications,
+		// notificationsCount: userNotification.notificationsCount,
+		session,
+		user,
+		cookies: cookies.getAll()
 	};
 };
