@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import { onMount } from 'svelte';
+	import { invalidate } from '$app/navigation';
 	import Nav from '$lib/components/layout/Nav.svelte';
 	import { Toaster, toast } from 'svelte-sonner';
 	import { SubscribeUser } from '$lib/notification/subscribe-user';
