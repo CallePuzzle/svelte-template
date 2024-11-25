@@ -30,14 +30,5 @@
 		userPicture={data.user?.picture || ''}
 		notificationsCount={data.notificationsCount}
 	/>
-	{#if data.isProtectedRoute && !data.userIsLogged}
-		<div class="alert alert-error">
-			<p>{data.protectedRouteMessage}</p>
-			<p>
-				<a href={Routes.login.url} class="btn btn-accent">{Routes.login.name}</a>
-			</p>
-		</div>
-	{:else}
-		{@render children()}
-	{/if}
+	{@render children()}
 </div>

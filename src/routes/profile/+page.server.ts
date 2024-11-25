@@ -1,8 +1,6 @@
 import { error } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
 import { logger } from '$lib/server/logger';
-import { initializePrisma } from '$lib/server/db';
-import { GetDetail as UserGetDetail } from '$lib/user/get-detail';
 import { superValidate, message } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { UserSchema } from '$lib/schemas';
@@ -19,42 +17,20 @@ export const actions: Actions = {
 			logger.debug('form invalid');
 			return fail(400, { form });
 		}
-
-		const db = event.platform!.env.DB;
-		const prisma = initializePrisma(db);
-		try {
-			const user = await prisma.user.update({
-				where: {
-					id: event.locals.user!.id
-				},
-				data: form.data
-			});
-			logger.info(user, 'profile updated');
-			return message(form, 'Form posted successfully!');
-		} catch (error) {
-			logger.error(error);
-			return message(form, 'Error updating profile');
-		}
 	}
 };
 
 export const load: PageServerLoad = async (event: PageServerLoadEvent) => {
 	let form = {};
 
-	if (event.locals.user) {
-		const db = event.platform!.env.DB;
-		const prisma = initializePrisma(db);
-		const user = await UserGetDetail(prisma, event.locals.user.id);
-		if (!user) error(404, 'Not found');
-		const userData = {
-			id: user.id,
-			name: user.name ?? undefined,
-			picture: user.picture ?? undefined,
-			subscription: user.subscription ?? undefined
-		};
-		form = await superValidate(userData, zod(UserSchema));
-		logger.debug(form, 'form');
+	const user = event.locals.user;
+	const userData = {
+		name: user?.user_metadata.full_name,
+		email: user?.email,
+		picture: user?.user_metadata.avatar_url
 	}
 
-	return { form };
+	form = await superValidate(user, zod(UserSchema));
+
+	return { form, session: event.locals.session };
 };
