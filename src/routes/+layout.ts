@@ -2,9 +2,10 @@ import { loadTranslations } from '$lib/translations';
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
 import { createBrowserClient, createServerClient, isBrowser } from '@supabase/ssr';
 
-import type { PageServerLoad } from './$types';
+import type { LayoutLoad, LayoutLoadEvent } from './$types';
 
-export const load: PageServerLoad = async ({ fetch, data, depends }) => {
+export const load: LayoutLoad = async (event: LayoutLoadEvent) => {
+	const { fetch, data, depends } = event;
 	await loadTranslations('es');
 
 	depends('supabase:auth');

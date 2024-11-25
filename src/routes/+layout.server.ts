@@ -6,10 +6,10 @@ import { initializePrisma } from '$lib/server/db';
 import { getPublicKeyFromJwk } from 'cf-webpush';
 import { logger } from '$lib/server/logger';
 
-import type { PageServerLoad, PageServerLoadEvent } from './$types';
+import type { LayoutServerLoad, LayoutServerLoadEvent } from './$types';
 import type { UserNotifications } from '$lib/notification/get-user-notifications';
 
-export const load: PageServerLoad = async (event: PageServerLoadEvent) => {
+export const load: LayoutServerLoad = async (event: LayoutServerLoadEvent) => {
 	const {
 		locals: { safeGetSession },
 		cookies
