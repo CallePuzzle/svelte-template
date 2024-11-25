@@ -5,6 +5,7 @@
 	import { t } from '$lib/translations';
 
 	import type { PageData } from './$types';
+	import { type SuperValidated, type Infer } from 'sveltekit-superforms';
 
 	let {
 		data
@@ -12,7 +13,7 @@
 		data: PageData;
 	} = $props();
 
-	const superform = data.form;
+	let superform = $state(data.form) as SuperValidated<Infer<typeof UserSchema>>;
 </script>
 
 <div class="flex flex-col">
@@ -21,7 +22,7 @@
 			<div class="max-w-md">
 				<h1 class="text-5xl font-bold">
 					{$t('profile.hello')}
-					{#if data.user.name}{data.user.name}{/if}
+					{#if data.userData}{data.userData.name}{/if}
 				</h1>
 				<p class="py-6">
 					Tienes {data.notificationsCount} notificaciones pendientes

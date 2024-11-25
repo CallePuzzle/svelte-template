@@ -27,7 +27,7 @@
 <div class="h-screen main-div">
 	<Nav
 		userIsLogged={data.userIsLogged}
-		userPicture={data.user?.picture || ''}
+		userPicture={data.userData?.picture || ''}
 		notificationsCount={data.notificationsCount}
 	/>
 	{@render children()}
