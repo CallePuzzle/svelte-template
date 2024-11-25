@@ -42,8 +42,8 @@ export const load: LayoutServerLoad = async (event: LayoutServerLoadEvent) => {
 		JWKpublicKey: getPublicKeyFromJwk(JSON.parse(JWK)),
 		// notifications: userNotification.notifications,
 		// notificationsCount: userNotification.notificationsCount,
-		session,
-		user,
+		// session,
+		// user,
 		cookies: cookies.getAll()
 	};
 };
