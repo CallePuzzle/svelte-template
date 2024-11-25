@@ -1,9 +1,15 @@
+import pkg from 'pg';
+const { Pool } = pkg;
+
+import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@prisma/client';
-import { PrismaD1 } from '@prisma/adapter-d1';
+import { DATABASE_URL } from '$env/static/private';
 
-import type { D1Database } from '@cloudflare/workers-types';
+const connectionString = `${DATABASE_URL}`;
 
-export function initializePrisma(D1: D1Database) {
-	const adapter = new PrismaD1(D1);
-	return new PrismaClient({ adapter });
-}
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
+
+const prisma = new PrismaClient({ adapter });
+
+export default prisma;

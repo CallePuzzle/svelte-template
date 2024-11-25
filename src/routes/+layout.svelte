@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import { onMount } from 'svelte';
+	import { invalidate } from '$app/navigation';
 	import Nav from '$lib/components/layout/Nav.svelte';
 	import { Toaster, toast } from 'svelte-sonner';
 	import { SubscribeUser } from '$lib/notification/subscribe-user';
@@ -26,17 +27,8 @@
 <div class="h-screen main-div">
 	<Nav
 		userIsLogged={data.userIsLogged}
-		userPicture={data.user?.picture || ''}
+		userPicture={data.userData?.picture || ''}
 		notificationsCount={data.notificationsCount}
 	/>
-	{#if data.isProtectedRoute && !data.userIsLogged}
-		<div class="alert alert-error">
-			<p>{data.protectedRouteMessage}</p>
-			<p>
-				<a href={Routes.login.url} class="btn btn-accent">{Routes.login.name}</a>
-			</p>
-		</div>
-	{:else}
-		{@render children()}
-	{/if}
+	{@render children()}
 </div>

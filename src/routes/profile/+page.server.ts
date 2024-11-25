@@ -1,13 +1,13 @@
 import { error } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
 import { logger } from '$lib/server/logger';
-import { initializePrisma } from '$lib/server/db';
-import { GetDetail as UserGetDetail } from '$lib/user/get-detail';
-import { superValidate, message } from 'sveltekit-superforms';
+import { superValidate, message, type SuperValidated, type Infer } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { UserSchema } from '$lib/schemas';
+import prisma from '$lib/server/db';
 
 import type { PageServerLoad, PageServerLoadEvent, Actions } from './$types';
+import type { User } from '@prisma/client';
 
 export const actions: Actions = {
 	default: async (event) => {
@@ -20,8 +20,6 @@ export const actions: Actions = {
 			return fail(400, { form });
 		}
 
-		const db = event.platform!.env.DB;
-		const prisma = initializePrisma(db);
 		try {
 			const user = await prisma.user.update({
 				where: {
@@ -41,20 +39,21 @@ export const actions: Actions = {
 export const load: PageServerLoad = async (event: PageServerLoadEvent) => {
 	let form = {};
 
-	if (event.locals.user) {
-		const db = event.platform!.env.DB;
-		const prisma = initializePrisma(db);
-		const user = await UserGetDetail(prisma, event.locals.user.id);
-		if (!user) error(404, 'Not found');
-		const userData = {
-			id: user.id,
-			name: user.name ?? undefined,
-			picture: user.picture ?? undefined,
-			subscription: user.subscription ?? undefined
-		};
-		form = await superValidate(userData, zod(UserSchema));
-		logger.debug(form, 'form');
-	}
+	const user = (await prisma.user.findUnique({
+		where: {
+			id: event.locals.user!.id
+		}
+	})) as User;
 
-	return { form };
+	const userData = {
+		name: user.name ?? '',
+		email: user.email,
+		picture: user.picture ?? ''
+	};
+
+	form = (await superValidate(userData, zod(UserSchema))) as SuperValidated<
+		Infer<typeof UserSchema>
+	>;
+
+	return { form, session: event.locals.session };
 };

@@ -15,7 +15,7 @@ const Routes: Routes = {
 	},
 	login: {
 		name: 'Login',
-		url: '/login'
+		url: '/auth'
 	},
 	profile: {
 		name: 'Perfil',
@@ -47,4 +47,8 @@ const ProtectedRoutes: ProtectedRoute[] = [
 	}
 ];
 
-export { Routes, ProtectedRoutes };
+const RouteIsProtected = (path: string): boolean => {
+	return ProtectedRoutes.some((route) => route.path === path);
+};
+
+export { Routes, ProtectedRoutes, RouteIsProtected };
