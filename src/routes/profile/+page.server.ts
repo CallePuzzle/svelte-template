@@ -28,7 +28,7 @@ export const load: PageServerLoad = async (event: PageServerLoadEvent) => {
 		name: user?.user_metadata.full_name,
 		email: user?.email,
 		picture: user?.user_metadata.avatar_url
-	}
+	};
 
 	form = await superValidate(user, zod(UserSchema));
 
