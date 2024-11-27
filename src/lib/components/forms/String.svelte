@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { t } from '$lib/translations';
 	import { Control, Field, FieldErrors, Label } from 'formsnap';
+	import { ZodReadonly } from 'zod';
 	import type { SuperForm } from 'sveltekit-superforms';
 	import type { SuperFormData } from 'sveltekit-superforms/client';
 
@@ -17,6 +18,10 @@
 		schemaObj: any;
 		formData: SuperFormData<any>;
 	} = $props();
+
+	function isReadOnly(field: any) {
+		return schemaObj[field] instanceof ZodReadonly;
+	}
 </script>
 
 <Field {form} name={field}>
@@ -30,6 +35,7 @@
 				required={!schemaObj[field].isOptional()}
 				minlength={schemaObj[field].minLength}
 				maxlength={schemaObj[field].maxLength}
+				disabled={isReadOnly(field)}
 			/>
 		</Label>
 	</Control>

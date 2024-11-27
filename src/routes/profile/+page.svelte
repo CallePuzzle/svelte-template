@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { Routes } from '$lib/routes';
 	import { UserSchema } from '$lib/schemas';
 	import Form from '$lib/components/forms/Form.svelte';
@@ -13,7 +14,18 @@
 		data: PageData;
 	} = $props();
 
+	let supabase = $state(data.supabase);
+
 	let superform = $state(data.form) as SuperValidated<Infer<typeof UserSchema>>;
+
+	let logout = async () => {
+		const { error } = await supabase.auth.signOut();
+		if (error) {
+			console.error(error);
+		} else {
+			goto(Routes.home.url!);
+		}
+	};
 </script>
 
 <div class="flex flex-col">
@@ -33,5 +45,8 @@
 	</div>
 	<div class="container mx-auto px-4">
 		<Form schema={UserSchema} {superform} type="user" />
+	</div>
+	<div class="container mx-auto px-4 flex justify-center items-center">
+		<button onclick={logout} class="btn btn-outline btn-warning">Logout</button>
 	</div>
 </div>
