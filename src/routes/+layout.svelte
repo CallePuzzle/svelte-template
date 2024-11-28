@@ -19,6 +19,18 @@
 			const reg = await navigator.serviceWorker.ready;
 			await SubscribeUser(data.userIsLogged, data.user?.id as string, reg, data.JWKpublicKey);
 		}
+
+		const supabase = data.supabase;
+		const channelAll = supabase.channel('room-all');
+
+		function messageReceived(payload: any) {
+			console.log(payload);
+		}
+
+		// Subscribe to the Channel
+		channelAll
+			.on('broadcast', { event: 'test' }, (payload) => messageReceived(payload))
+			.subscribe();
 	});
 </script>
 
