@@ -29,3 +29,14 @@ Cómo aplicar migraciones:
 npx wrangler d1 migrations apply svelte-test --local
 npx prisma generate
 ```
+
+sa9VqVqXH7mSmwIb
+
+Hay que linkar el proyecto de supabase https://supabase.com/docs/guides/deployment/managing-environments
+
+yarn supabase start
+
+npx prisma migrate dev --name init
+npx prisma migrate resolve --applied 20241125155644_init
+
+http://localhost:5173/auth/confirm?token_hash

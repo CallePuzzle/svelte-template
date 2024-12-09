@@ -2,10 +2,10 @@ import { createServerClient } from '@supabase/ssr';
 import { type Handle, redirect } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { RouteIsProtected } from '$lib/routes';
-
-import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 
 const supabase: Handle = async ({ event, resolve }) => {
+	const { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } = env;
 	/**
 	 * Creates a Supabase client specific to this server request.
 	 *

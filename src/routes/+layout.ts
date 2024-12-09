@@ -1,10 +1,11 @@
 import { loadTranslations } from '$lib/translations';
-import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 import { createBrowserClient, createServerClient, isBrowser } from '@supabase/ssr';
 
 import type { LayoutLoad, LayoutLoadEvent } from './$types';
 
 export const load: LayoutLoad = async (event: LayoutLoadEvent) => {
+	const { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } = env;
 	const { fetch, data, depends } = event;
 	await loadTranslations('es');
 

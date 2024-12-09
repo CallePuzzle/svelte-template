@@ -1,5 +1,5 @@
 import { logger } from '$lib/server/logger';
-import { initializePrisma } from '$lib/server/db';
+import prisma from '$lib/server/db';
 
 import type { RequestEvent } from '@sveltejs/kit';
 
@@ -8,11 +8,8 @@ export async function POST(event: RequestEvent): Promise<Response> {
 
 	logger.info(data, 'notification data');
 
-	const db = event.platform!.env.DB;
-	const prisma = initializePrisma(db);
-
 	try {
-		const user = await prisma.user.update({
+		await prisma.user.update({
 			where: {
 				id: data.userId
 			},

@@ -1,4 +1,4 @@
-import { JWK, APP_URL } from '$env/static/private'; // TODO https://github.com/sveltejs/kit/issues/8882
+import { env } from '$env/dynamic/private'; // TODO https://github.com/sveltejs/kit/issues/8882
 import { GetDetail as UserGetDetail } from '$lib/user/get-detail';
 import { GetUserNotifications } from '$lib/notification/get-user-notifications';
 import { getPublicKeyFromJwk } from 'cf-webpush';
@@ -9,6 +9,8 @@ import type { LayoutServerLoad, LayoutServerLoadEvent } from './$types';
 import type { UserNotifications } from '$lib/notification/get-user-notifications';
 
 export const load: LayoutServerLoad = async (event: LayoutServerLoadEvent) => {
+	const { JWK, APP_URL } = env;
+
 	const { cookies } = event;
 
 	let userData = null;
